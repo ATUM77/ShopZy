@@ -3,12 +3,15 @@ import { CanActivateFn, Router } from '@angular/router';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
-  const token = sessionStorage.getItem('bigBasket_user');
+  const isAdmin = sessionStorage.getItem('isAdmin');
+  const bigBasketUser = sessionStorage.getItem('bigBasket_user');
 
-  if (token) {
+  if (state.url.startsWith('/products') && isAdmin === 'true') {
     return true;
-  } else {
-    router.navigateByUrl('/AllProducts');
-    return false;
   }
+  if (!state.url.startsWith('/products') && (isAdmin === 'true' || bigBasketUser)) {
+    return true;
+  }
+  router.navigate(['/AllProducts']);
+  return false;
 };

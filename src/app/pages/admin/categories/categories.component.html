@@ -9,7 +9,7 @@
                 <h5>All Categories</h5>
               </div>
               <div class="col-md-4 text-end">
-                <button class="btn btn-sm btn-dark" (click)="isSidePanel = true">New Category</button>
+                <button class="btn btn-sm btn-dark" (click)="isSidePanel = true" [disabled]="isSidePanel">New Category</button>
               </div>
             </div>
           </div>
@@ -33,7 +33,8 @@
                       <td>
                         <button pButton pRipple class="p-button-secondary p-button-sm me-3"
                           (click)="onEdit(item)">Edit</button>
-                        <button pButton pRipple class="p-button-danger p-button-sm" (click)="onDelete()">Delete</button>
+                        <button pButton pRipple class="p-button-danger p-button-sm"
+                         (click)="onDelete(item)">Delete</button>
                       </td>
                     </tr>
                   </ng-template>

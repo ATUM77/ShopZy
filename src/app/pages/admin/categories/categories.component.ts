@@ -19,7 +19,7 @@ export class CategoriesComponent implements OnInit {
   categoryObj: categoryObject = new categoryObject();
   isApiCallInProgress: boolean = false;
 
-  constructor(private productSrv: ProductService, private toaster: ToastrService) { }
+  constructor(private productSrv: ProductService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.getAllCategory();
@@ -34,22 +34,38 @@ export class CategoriesComponent implements OnInit {
   }
 
   saveCategory() {
-    if (!this.isApiCallInProgress) {
-      this.isApiCallInProgress = true;
-      this.productSrv.createCategory(this.categoryObj).subscribe((res: any) => {
+    if (this.isApiCallInProgress) return;
+
+    this.isApiCallInProgress = true;
+    this.productSrv.createCategory(this.categoryObj).subscribe({
+      next: (res: any) => {
+        this.isApiCallInProgress = false;
         if (res.result) {
-          this.isApiCallInProgress = false;
-          this.toaster.success('Category Created Successfully');
+          this.toastr.success('Category Created Successfully');
           this.reset();
           this.getAllCategory();
         } else {
-          this.isApiCallInProgress = false;
-          this.toaster.error(res.message);
+          this.toastr.error(res.message);
         }
-      }, (err: any) => {
+      },
+      error: (error: any) => {
         this.isApiCallInProgress = false;
-        this.toaster.error(err.message);
-      })
+        this.toastr.error('Failed to create category');
+      }
+    });
+  }
+
+  onDelete (categoryId: number) {
+    const isDelete = confirm('Are you Sure want to delete?');
+    if (isDelete) {
+      this.productSrv.deleteCategory(categoryId).subscribe((res: any) => {
+        if (res.result) {
+          this.toastr.success("Category Deleted Successfully");
+          this.getAllCategory();
+        } else {
+          this.toastr.error(res.message);
+        }
+      });
     }
   }
 
@@ -59,16 +75,16 @@ export class CategoriesComponent implements OnInit {
       this.productSrv.createCategory(this.categoryObj).subscribe((res: any) => {
         if (res.result) {
           this.isApiCallInProgress = false;
-          this.toaster.success('Category Updated Successfully');
+          this.toastr.success('Category Updated Successfully');
           this.reset();
           this.getAllCategory();
         } else {
           this.isApiCallInProgress = false;
-          this.toaster.error(res.message);
+          this.toastr.error(res.message);
         }
       }, (err: any) => {
         this.isApiCallInProgress = false;
-        this.toaster.error(err.message);
+        this.toastr.error(err.message);
       })
     }
   }
@@ -78,7 +94,6 @@ export class CategoriesComponent implements OnInit {
     this.isSidePanel = true;
   }
 
-  onDelete() { }
 
   reset() {
     this.categoryObj = new categoryObject();

@@ -53,6 +53,11 @@ export class ProductService {
     return this.http.get<any[]>(Constant.API_END_POINT + Constant.METHODS.DELETE_PRODUCT + id);
   }
 
+// Deletes a Category
+  deleteCategory(id: any): Observable<any[]> {
+    return this.http.get<any[]>(Constant.API_END_POINT + Constant.METHODS.DELETE_CATEGORY + id);
+  }
+
 // Adds a product to the user's cart
   addToCart(obj: any): Observable<any> {
     return this.http.post<any>(Constant.API_END_POINT + Constant.METHODS.ADD_TO_CART, obj);
@@ -107,5 +112,4 @@ export class ProductService {
   openSaleBySaleId(saleId: number): Observable<any[]> {
     return this.http.get<any[]>(Constant.API_END_POINT + Constant.METHODS.OPEN_SALE_BY_SALE_ID + saleId);
   }
-
 }

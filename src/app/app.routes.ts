@@ -60,6 +60,7 @@ export const routes: Routes = [
       {
         path: 'products',
         component: ProductsComponent,
+        canActivate: [authGuard],
         title: 'Products'
       },
       {

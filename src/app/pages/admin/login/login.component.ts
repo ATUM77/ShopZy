@@ -18,11 +18,13 @@ export class LoginComponent {
   constructor(private router: Router){}
 
   onLogin() {
-    if(this.loginObj.userName == "admin" && this.loginObj.password == "336699") {
-      this.router.navigateByUrl('/products')
-
-    } else {
-      alert('Wrong Credentials')
+    if (this.loginObj.userName === 'admin' && this.loginObj.password === '336699') {
+      sessionStorage.setItem('isAdmin', 'true');
+      console.log('Admin login successful');
+      this.router.navigate(['/products']);
+    } 
+     else {
+      alert('Wrong Credentials');
     }
   }
 
