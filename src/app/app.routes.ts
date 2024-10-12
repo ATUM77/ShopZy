@@ -38,6 +38,11 @@ export const routes: Routes = [
         path: 'cart',
         component: CartComponent
       }
+      ,
+      {
+        path: 'customer-cart',
+        component: CartComponent
+      }
     ]
   },
   {
