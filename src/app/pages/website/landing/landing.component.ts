@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ProductService } from '../../../services/product/product.service';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
@@ -40,7 +40,7 @@ export class LandingComponent implements OnInit {
   phonePattern: string = "^((\\+91-?)|0)?[0-9]{10}$";
   passwordPattern: any = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[\#?!@$%^&*\-])/;
 
-  constructor(private prodSrv: ProductService, private router: Router, public loginSrv: LoginService, private http: HttpClient, private toastr: ToastrService) {
+  constructor(private prodSrv: ProductService, private router: Router, public loginSrv: LoginService, private http: HttpClient, private toastr: ToastrService,private cdr: ChangeDetectorRef) {
     const localData = sessionStorage.getItem('bigBasket_user');
     if (localData !== null) {
       this.loggedInObj = JSON.parse(localData);
@@ -62,6 +62,7 @@ export class LandingComponent implements OnInit {
   ngOnInit(): void {
     this.getAllProducts();
     this.getAllCategory();
+    this.cdr.detectChanges();
   }
 
   pp() {

@@ -16,17 +16,7 @@ export class CustomerCartComponent implements OnInit, OnDestroy {
   private cartUpdateSubscription: Subscription = new Subscription();
 
   constructor(private prodSrv: ProductService) {
-    const localData = sessionStorage.getItem('bigBasket_user');
-    if (localData) {
-      this.loggedInObj = JSON.parse(localData);
-      
-      const savedCart = localStorage.getItem('customer_cart');
-      if (savedCart) {
-        this.cartList = JSON.parse(savedCart);
-      } else {
-        this.getCartByCustomerId(this.loggedInObj.custId);
-      }
-    }
+    this.initializeCart();
   }
 
   ngOnInit(): void {
@@ -39,15 +29,21 @@ export class CustomerCartComponent implements OnInit, OnDestroy {
     this.cartUpdateSubscription.unsubscribe();
   }
 
+  initializeCart() {
+    const localData = sessionStorage.getItem('bigBasket_user');
+    if (localData) {
+      this.loggedInObj = JSON.parse(localData);
+      this.getCartByCustomerId(this.loggedInObj.custId);
+    }
+  }
   getCartByCustomerId(custId: number) {
     this.prodSrv.getCartDataByCustId(custId).subscribe((res: any) => {
       if (res.result) {
-        this.cartList = res.data;
+        this.cartList = res.data;  
         this.updateLocalStorage();
       }
     });
   }
-
   remove(cartId: number) {
     this.prodSrv.removeProductByCartId(cartId).subscribe(() => {
       this.prodSrv.cartUpdated$.next(true); 
@@ -72,6 +68,7 @@ export class CustomerCartComponent implements OnInit, OnDestroy {
       this.remove(cart.cartId);
     }
   }
+
   updateLocalStorage() {
     localStorage.setItem('customer_cart', JSON.stringify(this.cartList));
   }
