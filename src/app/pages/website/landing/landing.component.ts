@@ -19,6 +19,9 @@ import { FooterComponent } from '../footer/footer.component';
   styleUrl: './landing.component.css',
 })
 export class LandingComponent implements OnInit {
+navigateToSubcategories(_t16: any,$event: KeyboardEvent) {
+throw new Error('Method not implemented.');
+}
   @ViewChild('loginFrm') loginFrm!: NgForm;
   @ViewChild('registerFrm') registerFrm!: NgForm;
   productList: any[] = [];

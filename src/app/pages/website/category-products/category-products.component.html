@@ -1,1 +1,36 @@
-<p>category-products works!</p>
+
+<!--<div class="categories">
+    <h2>Categories</h2>
+    <ul>
+      <li *ngFor="let category of categoryList">
+        {{ category.categoryName }}
+      </li>
+    </ul>
+  </div>!-->
+  
+ <!--<div class="products">
+    <h2>Products</h2>
+    <ul>
+      <li *ngFor="let product of productList">
+        <h3>{{ product.productName }}</h3>
+        <p>{{ product.description }}</p>
+        <p>Price: {{ product.productPrice }}</p>
+        <img class="image" src="{{ product.productImageUrl }}" width="150px">
+        
+      </li>
+    </ul>
+  </div>!-->
+
+<div class="row row-cols-1 row-cols-md-4 g-4" >
+  <div class="col" *ngFor="let product of productList">
+  <div class="card"  >
+    <img src="{{ product.productImageUrl }}" class="card-img-top" alt="..." height="280px
+    ">
+    <div class="card-body">
+      <h5 class="card-title" >{{ product.productName }}</h5>
+      <p class="card-text">{{product.productDescription }}</p>
+      <a href="#" class="btn btn-primary">Add to cart</a>
+    </div>
+  </div>
+</div>
+</div>
