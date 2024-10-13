@@ -10,6 +10,7 @@ import { CheckoutComponent } from './pages/website/checkout/checkout.component';
 import { CustomerOrdersComponent } from './pages/website/customer-orders/customer-orders.component';
 import { authGuard } from './shared/guards/auth.guard';
 import { CartComponent } from './pages/admin/cart/cart.component';
+import { CustomerCartComponent } from './pages/website/customer-cart/customer-cart.component';
 
 export const routes: Routes = [
   {
@@ -35,12 +36,11 @@ export const routes: Routes = [
         component: CategoryProductsComponent
       },
       {
-        path: 'cart',
-        component: CartComponent
-      }
-      ,
-      {
         path: 'customer-cart',
+        component: CustomerCartComponent,
+      },
+      {
+        path: 'cart',
         component: CartComponent
       }
     ]
