@@ -1,49 +1,53 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../../services/product/product.service';
 import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-category-products',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './category-products.component.html',
-  styleUrl: './category-products.component.css'
+  styleUrls: ['./category-products.component.css'] // Corrected the typo from "styleUrl" to "styleUrls"
 })
-export class CategoryProductsComponent {
+export class CategoryProductsComponent implements OnInit {
   productList: any[] = [];
   categoryList: any[] = [];
-  http: any;
-product: any;
+  filterdProducts: any[] = [];
+  productId: string | null = null; // Changed type to match expected param type
 
-  constructor(private prodSrv: ProductService){
-    
+  // Inject ProductService and ActivatedRoute
+  constructor(private prodSrv: ProductService, private route: ActivatedRoute) {}
 
-  }
   ngOnInit(): void {
     this.getAllProducts();
-    this.getAllCategory();
-
+  
+    this.getProductIdFromRoute();
   }
 
-  pp() {
-    this.http.get('https://freeapi.gerasim.in/api/BigBasket/GetAllProducts').subscribe((res: any) => {
-      if (res.result) {
-        console.log(res.data);
-      }
-    }, (err: any) => {
-      console.log('Error from api ' + err.message);
-    });
-  }
-
-
-  getAllCategory() {
-    this.prodSrv.getCategory().subscribe((res: any) => {
-      this.categoryList = res.data.filter((list: any) => list.parentCategoryId === 0);
-    });
-  }
-  getAllProducts() {
+  getAllProducts(): void {
     this.prodSrv.getProducts().subscribe((res: any) => {
-      this.productList = res.data;  // Assign the result to the products array
+      this.filterdProducts = res.data.filter((list: any) => list.categoryId === Number(this.productId)); // Ensure categoryId matches the productId
+      console.log(this.filterdProducts);
+      this.productList = this.filterdProducts; // Assign the filtered products
     });
   }
+
+  getProductIdFromRoute(): void {
+    // Subscribe to the paramMap observable to get the id
+    this.route.paramMap.subscribe(params => {
+      this.productId = params.get('id'); // Get the route parameter 'id'
+      
+    });
+  }
+
+
+
+
+
+
+
+
+
   
 }
