@@ -18,7 +18,8 @@
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown" (mouseleave)="resetSubcategories()">
                 <li *ngFor="let category of categoryList" class="position-relative">
-                  <a class="dropdown-item hand" (mouseover)="loadSubcategories(category)">
+                  <a class="dropdown-item hand" *ngIf="category.parentCategoryId ==0"
+                  (click)="navigateToProducts(category.categoryId)" (mouseover)="loadSubcategories(category)">
                     {{ category.categoryName }}
                   </a>
                   <!-- Nested dropdown for subcategories -->
@@ -38,7 +39,8 @@
                 pages
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="nav-link" routerLink="/cart">Cart</a></li>
+                <li><a class="nav-link" routerLink="/AllProducts">Home</a></li>
+                <li><a class="nav-link" routerLink="/customer-cart">Cart</a></li>
                 <li><a class="nav-link" routerLink="/order-history">Orders</a></li>
               </ul>
             </li>

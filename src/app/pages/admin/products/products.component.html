@@ -7,13 +7,15 @@
               <div class="col-md-6">
                 <h5>Product List</h5>
               </div>
+
               <div class="col-md-6 text-end">
                 <button class="btn btn-sm btn-success" (click)="openProductModal()">New</button>
               </div>
             </div>
           </div>
           <div class="card-body">
-            <div class="row">
+            <div class="row card-container">
+               <!-- Display products if available -->
               <ng-container *ngIf="filteredProductsList.length !== 0">
                 <div class="col-md-3 mb-3" [ngClass]="isSidePanelVisible ? 'col-md-4' : ''"
                   *ngFor="let product of filteredProductsList.slice(first, first + rows)">
@@ -38,10 +40,13 @@
                     </div>
                   </div>
                 </div>
+                 <!-- Pagination -->
                 <p-paginator [first]="first" [rows]="rows" [totalRecords]="filteredProductsList.length"
                   (onPageChange)="onPageChange($event)" [showJumpToPageDropdown]="true"
-                  [showPageLinks]="false"></p-paginator>
+                  [showPageLinks]="false">
+                </p-paginator>
               </ng-container>
+              <!-- No products available -->
               <ng-container *ngIf="filteredProductsList.length == 0">
                 <div class="col-md-12 text-center">
                   <h4 class="text-primary my-5">No Product In the List Right Now!!!</h4>
@@ -51,6 +56,7 @@
           </div>
         </div>
       </div>
+
       <!-- new product modal starts -->
       <div class="row">
         <div class="col-md-12">
@@ -152,6 +158,5 @@
           </form>
         </div>
       </div>
-      <!-- new product modal ends -->
     </div>
   </div>

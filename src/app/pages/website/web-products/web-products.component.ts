@@ -6,6 +6,8 @@ import { CardComponent } from '../../../shared/components/card/card.component';
 import { OfferCardComponent } from '../../../shared/components/offer-card/offer-card.component';
 import { Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { ChangeDetectorRef } from '@angular/core';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'web-products-products',
@@ -24,7 +26,7 @@ export class WebProductsComponent {
   currentIndex = 0;
   productsToShow: any[] = [];
 
-  constructor(private prodSrv: ProductService, private router: Router, private toastr: ToastrService) {
+  constructor(private prodSrv: ProductService, private router: Router, private toastr: ToastrService, private cdr: ChangeDetectorRef) {
     const localData = sessionStorage.getItem('bigBasket_user');
     if (localData !== null) {
       const parseObj = JSON.parse(localData);
@@ -35,9 +37,20 @@ export class WebProductsComponent {
   ngOnInit(): void {
     this.getAllProducts();
     this.getAllCategory();
-    this.offers$ = this.prodSrv.getAllOffers();
+    this.offers$ = this.prodSrv.getAllOffers().pipe(
+      map((offers: any[]) => offers.filter(offer => this.isValidImage(offer.offerImageUrl)).slice(0, 3))
+    );
   }
 
+  isValidImage(imageUrl: string): boolean {
+    return !!(imageUrl && imageUrl !== '' && this.isValidURL(imageUrl));
+  }
+
+  isValidURL(url: string): boolean {
+    const pattern = /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|svg))$/i;  // Only accept valid image formats
+    return pattern.test(url);
+  }
+  
   navigateToProducts(id: number) {
     this.router.navigate(['/products', id]);
   }
@@ -60,6 +73,7 @@ export class WebProductsComponent {
             product.isAddToCartApiCallInProgress = false;
             this.toastr.success("Product Added to cart");
             this.prodSrv.cartUpdated$.next(true);
+            this.cdr.detectChanges();
           } else {
             product.isAddToCartApiCallInProgress = false;
             this.toastr.error(res.message ? res.message : "Error adding product to cart");
@@ -78,13 +92,12 @@ export class WebProductsComponent {
   getAllProducts() {
     this.prodSrv.getProducts().subscribe((res: any) => {
       this.productList = res.data;
-      this.productsToShow = this.productList.slice(this.currentIndex, this.currentIndex + 4);
+      this.productsToShow = this.productList.slice(this.currentIndex, this.currentIndex + 3);
     });
   }
 
   getAllCategory() {
     this.prodSrv.getCategory().subscribe((res: any) => {
-      // Get top-level categories (parentCategoryId = 0)
       this.categoryList = res.data.filter((list: any) => list.parentCategoryId === 0);
     });
   }
@@ -108,13 +121,17 @@ export class WebProductsComponent {
   }
 
   nextProduct() {
-    this.currentIndex += 3;  // Increment index by 3
-    this.productsToShow = this.productList.slice(this.currentIndex, this.currentIndex + 3);  // Update products to show
+    if (this.currentIndex + 3 < this.productList.length) {
+      this.currentIndex += 3;  // Increment index by 3
+      this.productsToShow = this.productList.slice(this.currentIndex, this.currentIndex + 3);  // Show next 3 products
+    }
   }
 
   previousProduct() {
-    this.currentIndex -= 3; // Decrement index by 3
-    this.productsToShow = this.productList.slice(this.currentIndex, this.currentIndex + 3);// Update products to show
+    if (this.currentIndex >= 3) {
+      this.currentIndex -= 3;  // Decrement index by 3
+      this.productsToShow = this.productList.slice(this.currentIndex, this.currentIndex + 3);  // Show previous 3 products
+    }
   }
 
 

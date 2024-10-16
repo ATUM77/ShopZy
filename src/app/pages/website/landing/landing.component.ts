@@ -263,7 +263,7 @@ throw new Error('Method not implemented.');
 
   getAllCategory() {
     this.prodSrv.getCategory().subscribe((res: any) => {
-      this.categoryList = res.data.filter((list: any) => list.parentCategoryId === 0);
+      this.categoryList = res.data.filter((list: any) => list.parentCategoryId === 0).slice(0, 9);
     });
   }
 

@@ -111,14 +111,6 @@ export class ProductsComponent implements OnInit {
   }
 
   onEdit(item: any) {
-    // this.productSrv.getProductById(item.productId).subscribe((res: any) => {
-    //   debugger
-    //   if (res.result) {
-    //     debugger
-    //     this.productObj = res.data;
-    //     this.openProductModal();
-    //   }
-    // });
     this.productObj = item;
     this.openProductModal();
   }
@@ -140,6 +132,14 @@ export class ProductsComponent implements OnInit {
   onPageChange(event: any) {
     this.first = event.first;
     this.rows = event.rows;
+  }
+
+  hoveredIndex: number | null = null;
+  hoverCard(index: number) {
+    this.hoveredIndex = index;
+  }
+  unhoverCard() {
+    this.hoveredIndex = null;
   }
 }
 

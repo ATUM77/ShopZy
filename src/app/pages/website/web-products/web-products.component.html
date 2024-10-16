@@ -1,55 +1,65 @@
 <div class="container-fluid">
-    <div class="container py-3">
-      <ng-container *ngIf="productList.length !== 0">
-        <div class="text-center mx-auto" style="max-width: 1100px;">
-          <h1 class="display-4">Bestseller Products</h1>
-          <p>Discover our handpicked selection of top-rated products. From must-have essentials to trendy favorites, find
-            what you need to elevate your lifestyle.</p>
-        </div>
-  
-        <div class="row mt-5 mb-4">
-          <div class="col-md-2 mb-3" *ngFor="let category of categoryList">
-            <button class="btn parentCategoryBtn" *ngIf="category.parentCategoryId ==0"
-              (click)="navigateToProducts(category.categoryId)">{{category.categoryName}}</button>
+  <div class="container py-3">
+    <ng-container *ngIf="productList.length !== 0">
+      <!-- Section Heading -->
+      <div class="text-center mx-auto" style="max-width: 1100px;">
+        <h2 class="frame-1" style="font-size: 2.5rem; font-weight: bold;">Discover ShopZy</h2>
+        <h2 class="frame-2" style="font-size: 2.5rem; font-weight: bold;">Unleash Exclusive Deals</h2>
+        <h2 class="frame-3" style="font-size: 2.5rem; font-weight: bold;">Curated For Your Lifestyle</h2>
+        <h2 class="frame-4" style="font-size: 2.5rem; font-weight: bold;">Shop Smart, Live Better</h2>
+        <h2 class="frame-5" style="font-size: 2.5rem; font-weight: bold;">
+          <span style="color: #f54242;">Trendy,</span>
+          <span style="color: #f54242;">Stylish,</span>
+          <span style="color: #f54242;">Affordable.</span>
+        </h2>
+      </div>
+
+      <!-- My Basket -->
+      <div class="row my-4 px-3 py-4" style="background: #F7F7F7;">
+        <div class="row mb-3">
+          <div class="col-md-8">
+            <h5 style="font-weight: bold;">My Basket</h5>
+          </div>
+          <div class="col-md-4 text-end">
+            <button class="btn prevBtn me-2" (click)="previousProduct()" [disabled]="isPreviousDisabled()"
+              [ngClass]="{'disabledBtn': isPreviousDisabled()}" style="background: #e0e0e0; border-radius: 50%;">
+              <i class="fa-solid fa-angle-left fa-lg"></i>
+            </button>
+            <button class="btn nxtBtn" (click)="nextProduct()" [disabled]="isNextDisabled()"
+              [ngClass]="{'disabledBtn': isNextDisabled()}" style="background: #e0e0e0; border-radius: 50%;">
+              <i class="fa-solid fa-angle-right fa-lg"></i>
+            </button>
           </div>
         </div>
-      <!-- my Basket -->
-        <div class="row my-4 px-3 py-4" [ngStyle]="{'background': '#F7F7F7'}">
-          <div class="row mb-3">
-            <div class="col-md-8">
-              <h5>My Basket</h5>
-            </div>
-            <div class="col-md-4 text-end">
-              <button class="btn prevBtn me-2" (click)="previousProduct()" [disabled]="isPreviousDisabled()"
-                [ngClass]="{'disabledBtn': isPreviousDisabled()}"><i class="fa-solid fa-angle-left fa-lg"></i></button>
-              <button class="btn nxtBtn" (click)="nextProduct()" [disabled]="isNextDisabled()"
-                [ngClass]="{'disabledBtn': isNextDisabled()}"><i class="fa-solid fa-angle-right fa-lg"></i></button>
-            </div>
-          </div>
-          <div class="product-container row rowPosition">
-            <div class="col-lg-6 col-xl-4 mb-4 product-card" *ngFor="let product of productsToShow">
-              <product-card [cardDesign]="'border-0'" [cardBodyClass]="'p-4 rounded'"
-                [productImg]="product.productImageUrl" [productShortName]="product.productShortName | titlecase"
-                [productPrice]="product.productPrice" (incrementQuantity)="increment(product)"
-                (decrementQuantity)="decrementQuantity(product)" [quantity]="getQuantity(product)"
-                (addProductToCart)="addToCart(product)" [isLoading]="product.isAddToCartApiCallInProgress">
-              </product-card>
-            </div>
+
+        <!-- Product Cards -->
+        <div class="product-container row rowPosition">
+          <div class="col-lg-6 col-xl-4 mb-4 product-card" *ngFor="let product of productsToShow">
+            <product-card [cardDesign]="'border-0'" [cardBodyClass]="'p-4 rounded'"
+              [productImg]="product.productImageUrl" [productShortName]="product.productShortName | titlecase"
+              [productPrice]="product.productPrice" (incrementQuantity)="increment(product)"
+              (decrementQuantity)="decrementQuantity(product)" [quantity]="getQuantity(product)"
+              (addProductToCart)="addToCart(product)" [isLoading]="product.isAddToCartApiCallInProgress">
+            </product-card>
           </div>
         </div>
-  
-        <!-- Bank offers -->
-        <div class="row mt-4 mb-3">
-          <h4 class="mb-3">Top Offers</h4>
-          <ng-container *ngFor="let offers of offers$ | async">
-            <div class="col-md-3 mb-4">
-              <!-- <offer-card [imageSrc]="offers.offerImageUrl"></offer-card> -->
-            </div>
-          </ng-container>
-        </div>
-      </ng-container>
-      <ng-container *ngIf="productList.length == 0">
-        <h5 class="empty py-5">No Products Available At the moment!!</h5>
-      </ng-container>
-    </div>
+      </div>
+
+      <!-- Top Offers Section -->
+      <div class="row mt-4 mb-3">
+        <h4 class="mb-3" style="font-weight: bold;">Top Offers</h4>
+        <ng-container *ngFor="let offers of (offers$ | async)">
+          <div class="col-md-3 mb-4" *ngIf="offers.offerImageUrl && offers.offerImageUrl !== ''">
+            <!-- Offer card can go here -->
+            <offer-card [imageSrc]="offers.offerImageUrl"></offer-card>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+
+    <!-- No Products Available Message -->
+    <ng-container *ngIf="productList.length == 0">
+      <h5 class="empty py-5" style="text-align: center; color: #999;">No Products Available At the moment!!</h5>
+    </ng-container>
   </div>
+</div>

@@ -1,3 +1,97 @@
+.main-dropdown {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  width: 220px;
+}
+
+.dropdown-item {
+  padding: 10px 15px; 
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+  color: #007bff;
+  cursor: pointer;
+}
+
+
+.sub-menu {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  display: none;
+  width: 220px;
+  padding: 10px;
+  z-index: 1000;
+}
+
+.position-relative:hover .sub-menu {
+  display: block;
+}
+
+
+.sub-menu .dropdown-item:hover {
+  background-color: #e9ecef;
+  color: #007bff;
+}
+
+
+.position-relative > .dropdown-item::after {
+  content: "›"; 
+  float: right;
+  color: #6c757d; 
+  font-weight: bold;
+}
+
+.menuOnLeft {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  width: 300px;
+}
+
+.cartImg {
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-menu .row {
+  margin-bottom: 10px;
+}
+
+.dropdown-menu .btn-outline-danger {
+  border: none;
+  background: transparent;
+}
+
+.dropdown-menu .btn-outline-danger:hover {
+  background-color: #f8d7da;
+}
+
+.dropdown-menu .btn {
+  padding: 5px 10px;
+  font-size: 14px;
+  border-radius: 5px;
+}
+
+.dropdown-menu .btn-dark:hover {
+  background-color: #343a40;
+}
+
+.dropdown-menu .btn-danger:hover {
+  background-color: #c82333;
+}
+
 .dropdown-item:hover {
     background: #81C408 !important;
   }
@@ -71,4 +165,4 @@
     color: #fff !important;
   }
   
- 
+  
