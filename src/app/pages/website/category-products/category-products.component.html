@@ -7,7 +7,7 @@
       </li>
     </ul>
   </div>!-->
-  
+
  <!--<div class="products">
     <h2>Products</h2>
     <ul>
@@ -16,7 +16,7 @@
         <p>{{ product.description }}</p>
         <p>Price: {{ product.productPrice }}</p>
         <img class="image" src="{{ product.productImageUrl }}" width="150px">
-        
+
       </li>
     </ul>
   </div>!-->
@@ -27,9 +27,9 @@
         <img src="{{ product.productImageUrl }}" class="card-img-top" alt="..." height="280px" style="object-fit: cover;">
         <div class="card-body">
           <h5 class="card-title" style="color: #6a8a08;">{{ product.productName }}</h5>
-          <p class="card-text">{{ product.productDescription }}</p>
+          <!-- <p class="card-text">{{ product.productDescription }}</p> -->
           <p class="price" style="font-weight: bold; color: #d95d39;">{{ product.productPrice | currency: 'EGP' }}</p>
-          
+
           <adding-cart (addProductToCart)="addToCart(product)" [isLoading]="product.isAddToCartApiCallInProgress">
           <button class="btn btn-success mt-3"  style="background-color: #6a8a08; border-color: #6a8a08;">Add to cart</button>
         </adding-cart>
@@ -38,6 +38,6 @@
       </div>
     </div>
   </div>
-  
+
 
 

@@ -37,38 +37,41 @@ export const routes: Routes = [
       {
         path: 'customer-cart',
         component: CustomerCartComponent,
+      },
+      {
+        path: 'order-history',
+        component: CustomerOrdersComponent,
+        canActivate: [authGuard],
+        title: 'Your Orders'
+      },
+      {
+        path: 'checkout',
+        component: CheckoutComponent,
+        canActivate: [authGuard],
+        title: 'Checkout'
+      },
+      {
+        path: '',
+        component: LayoutComponent,
+        canActivate: [authGuard],
+        children: [
+          {
+            path: 'products',
+            component: ProductsComponent,
+            canActivate: [authGuard],
+            title: 'Products'
+          },
+          {
+            path: 'category',
+            component: CategoriesComponent,
+            title: 'Category'
+          },
+        ]
       }
     ]
   },
-  {
-    path: 'checkout',
-    component: CheckoutComponent,
-    canActivate: [authGuard],
-    title: 'Checkout'
-  },
-  {
-    path: 'order-history',
-    component: CustomerOrdersComponent,
-    canActivate: [authGuard],
-    title: 'Your Orders'
-  },
-  {
-    path: '',
-    component: LayoutComponent,
-    canActivate: [authGuard],
-    children: [
-      {
-        path: 'products',
-        component: ProductsComponent,
-        canActivate: [authGuard],
-        title: 'Products'
-      },
-      {
-        path: 'category',
-        component: CategoriesComponent,
-        title: 'Category'
-      },
-    ]
-  }
+
+
+
 
 ];

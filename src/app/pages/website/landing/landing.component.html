@@ -1,8 +1,7 @@
 <header>
-    <nav class="navbar navbar-expand-lg navbar-light nav-yellow  border-bottom border-top p-0">
+    <nav id="customNav" class="navbar navbar-expand-lg navbar-light nav-yellow  border-bottom border-top p-0">
       <div class="container">
-        <a class="navbar-brand fs-4 fw-bold "><i class="fa fa-cart-shopping fs-4" style="color: #f54242;"></i><span
-            class="textBlur">ShopZy</span></a>
+        <a class="navbar-brand fs-4 fw-bold " routerLink="/AllProducts"><img class="nav-logo" src="assets\logo.png" alt="Logo"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <!--Toggle  -->
@@ -91,7 +90,7 @@
                         </div>
                         <div class="d-flex justify-content-evenly mt-2">
                           <a routerLink="/customer-cart" routerLinkActive="router-link-active">
-                            <button class="btn btn-dark rounded-0 px-3">View Cart</button></a> 
+                            <button class="btn btn-dark rounded-0 px-3">View Cart</button></a>
                           <a routerLink="/checkout" routerLinkActive="router-link-active"> <button
                               class="btn btn-danger rounded-0 px-3">Checkout</button></a>
                         </div>
@@ -155,7 +154,7 @@
       </div>
     </nav>
   </header>
-  
+
   <!-- login modal starts -->
   <div class="row">
     <div class="col-md-12">
@@ -210,7 +209,7 @@
     </div>
   </div>
   <!-- login modal ends -->
-  
+
   <!-- register modal starts -->
   <div class="row">
     <div class="col-md-12">
@@ -267,7 +266,7 @@
     </div>
   </div>
   <!-- register modal ends -->
-  
+
   <!-- customer profile modal starts -->
   <div class="row">
     <div class="col-md-12">
