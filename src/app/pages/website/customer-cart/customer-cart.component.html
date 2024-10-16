@@ -45,7 +45,7 @@
           <p>Shipping Fee: 50 EGP</p>
           <p>Total Price: {{(calculateTotalSubtotal() + 50) | currency: 'EGP'}}</p>
           <div class="checkout-button">
-            <button class="checkout-btn">Proceed to Checkout</button>
+            <button class="checkout-btn" routerLink="/checkout" routerLinkActive="router-link-active" >Proceed to Checkout</button>
           </div>
         </div>
       </div>
