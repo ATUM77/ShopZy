@@ -90,7 +90,7 @@
         <p>Shipping Fee: {{ shippingFee | currency: 'EGP' }}</p>
         <p>Total Price: {{ totalPrice + shippingFee | currency: 'EGP' }}</p>
       </div>
-
+<form  [formGroup]="checkoutForm" >
       <div class="payment-options">
         <label>
           <input class="form-check-input" type="radio" name="paymentMethod" value="COD" (change)="selectPaymentMethod('COD')">
@@ -106,13 +106,13 @@
         <div>
           <input type="text" formControlName="cardNumber" placeholder="Card Number" class="card">
           <div class="text-danger" *ngIf="checkoutForm.get('cardNumber')?.invalid && checkoutForm.get('cardNumber')?.touched">
-            Card number is required.
-          </div>
+Please enter a valid Visa card number  
+        </div>
         </div>
         <div>
           <input type="text" formControlName="cardHolderName" placeholder="Card Holder Name" class="card">
           <div class="text-danger" *ngIf="checkoutForm.get('cardHolderName')?.invalid && checkoutForm.get('cardHolderName')?.touched">
-            Card holder name is required.
+           please enater a valid Card holder name 
           </div>
         </div>
         <div class="Input-container">
@@ -130,6 +130,8 @@
           </div>
         </div>
       </div>
+    </form>
+
     </div>
   </div>
 </div>
