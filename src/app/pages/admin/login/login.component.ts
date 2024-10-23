@@ -20,6 +20,7 @@ export class LoginComponent {
   onLogin() {
     if (this.loginObj.userName === 'admin' && this.loginObj.password === '336699') {
       sessionStorage.setItem('isAdmin', 'true');
+      sessionStorage.removeItem('bigBasket_user');
       console.log('Admin login successful');
       this.router.navigate(['/products']);
     } 

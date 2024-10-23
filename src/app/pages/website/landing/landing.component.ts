@@ -204,6 +204,7 @@ throw new Error('Method not implemented.');
                 this.loggedInObj = res.data;
                 sessionStorage.setItem('bigBasket_user', JSON.stringify(this.loggedInObj));
                 sessionStorage.setItem('token', JSON.stringify(secondRes.data.token));
+                sessionStorage.removeItem('isAdmin'); 
                 this.toastr.success('LOGIN SUCCESSFUL', 'SUCCESS');
                 if (this.rememberMe == true) {
                   sessionStorage.setItem('rememberMeUser', JSON.stringify(this.loginObj));
