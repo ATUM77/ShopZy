@@ -88,7 +88,7 @@ h2{
 }
 
 .submit-btn:hover {
-  background-color: #688512; 
+  background-color: #d95d39; 
 }
 
 .text-danger {
@@ -116,3 +116,7 @@ h2{
 
 .Input-container input:nth-child(n+4) {
   width: 20%; }
+  abbr{
+    color: red;
+    text-decoration: none;
+  }

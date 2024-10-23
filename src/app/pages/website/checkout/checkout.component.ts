@@ -62,11 +62,11 @@ export class CheckoutComponent implements OnInit {
     if (method === 'Online') {
       this.isOnlinePaymentSelected = true;
 
-      this.checkoutForm.get('cardNumber')?.setValidators([Validators.required]);
-      this.checkoutForm.get('cardHolderName')?.setValidators([Validators.required]);
-      this.checkoutForm.get('expiryMonth')?.setValidators([Validators.required]);
-      this.checkoutForm.get('expiryYear')?.setValidators([Validators.required]);
-      this.checkoutForm.get('cvv')?.setValidators([Validators.required]);
+      this.checkoutForm.get('cardNumber')?.setValidators([Validators.required,Validators.pattern('^5[0-9]{15}$')]);
+      this.checkoutForm.get('cardHolderName')?.setValidators([Validators.required,Validators.pattern('^[A-Z]+$')]);
+      this.checkoutForm.get('expiryMonth')?.setValidators([Validators.required,Validators.pattern('^(0[1-9]|1[0-2])$')]);
+      this.checkoutForm.get('expiryYear')?.setValidators([Validators.required,Validators.pattern('^[0-9]{2}$')]);
+      this.checkoutForm.get('cvv')?.setValidators([Validators.required,Validators.pattern('^[0-9]{3}$')]);
     } else {
       this.isOnlinePaymentSelected = false;
 
@@ -98,7 +98,7 @@ export class CheckoutComponent implements OnInit {
         const control = this.checkoutForm.get(field);
         control?.markAsTouched({ onlySelf: true });
       });
-      console.log('Form is invalid');
     }
+
   }
 }
