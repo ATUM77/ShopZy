@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../../services/product/product.service';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
+
 @Component({
   selector: 'app-categories',
   standalone: true,
@@ -16,24 +18,28 @@ import { TableModule } from 'primeng/table';
 export class CategoriesComponent implements OnInit {
   products$: Observable<any> | undefined;
   isSidePanel: boolean = false;
-  categoryObj: categoryObject = new categoryObject();
+  categoryObj: CategoryObject = new CategoryObject();
   isApiCallInProgress: boolean = false;
 
-  constructor(private productSrv: ProductService, private toastr: ToastrService) { }
+  constructor(
+    private productSrv: ProductService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.getAllCategory();
   }
 
-  getAllCategory() {
+  // Fetch all categories
+  getAllCategory(): void {
     this.products$ = this.productSrv.getCategory().pipe(
-      map((item: any) => {
-        return item.data;
-      })
+      map((response: any) => {
+        return response.data.slice(0, 18);})
     );
   }
 
-  saveCategory() {
+  // Save a new category
+  saveCategory(): void {
     if (this.isApiCallInProgress) return;
 
     this.isApiCallInProgress = true;
@@ -42,33 +48,40 @@ export class CategoriesComponent implements OnInit {
         this.isApiCallInProgress = false;
         if (res.result) {
           this.toastr.success('Category Created Successfully');
-          this.reset();
+          this.resetForm();
           this.getAllCategory();
         } else {
           this.toastr.error(res.message);
         }
       },
-      error: (error: any) => {
+      error: (err: any) => {
         this.isApiCallInProgress = false;
         this.toastr.error('Failed to create category');
       }
     });
   }
 
-  onDelete (categoryId: number) {
-    const isDelete = confirm('Are you Sure want to delete?');
-    if (isDelete) {
-      this.productSrv.deleteCategory(categoryId).subscribe((res: any) => {
-        if (res.result) {
-          this.toastr.success("Category Deleted Successfully");
-          this.getAllCategory();
-        } else {
-          this.toastr.error(res.message);
+  // Delete a category
+  onDelete(categoryId: number): void {
+    const isDeleteConfirmed = confirm('Are you sure you want to delete this category?');
+    if (isDeleteConfirmed) {
+      this.productSrv.deleteCategory(categoryId).subscribe({
+        next: (res: any) => {
+          if (res.result) {
+            this.toastr.success('Category Deleted Successfully');
+            this.getAllCategory();
+          } else {
+            this.toastr.error(res.message);
+          }
+        },
+        error: () => {
+          this.toastr.error('Failed to delete category');
         }
       });
     }
   }
 
+  // Update a category
   updateCategory() {
     if (!this.isApiCallInProgress) {
       this.isApiCallInProgress = true;
@@ -76,7 +89,7 @@ export class CategoriesComponent implements OnInit {
         if (res.result) {
           this.isApiCallInProgress = false;
           this.toastr.success('Category Updated Successfully');
-          this.reset();
+          this.resetForm();
           this.getAllCategory();
         } else {
           this.isApiCallInProgress = false;
@@ -89,19 +102,21 @@ export class CategoriesComponent implements OnInit {
     }
   }
 
-  onEdit(item: any) {
-    this.categoryObj = item;
+  // Edit a category
+  onEdit(category: any): void {
+    this.categoryObj = { ...category };
     this.isSidePanel = true;
   }
 
-
-  reset() {
-    this.categoryObj = new categoryObject();
+  // Reset form and close side panel
+  resetForm(): void {
+    this.categoryObj = new CategoryObject();
     this.isSidePanel = false;
   }
 }
 
-export class categoryObject {
+// Category object model
+export class CategoryObject {
   categoryId: number;
   categoryName: string;
   parentCategoryId: number;

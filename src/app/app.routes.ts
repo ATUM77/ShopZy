@@ -9,7 +9,6 @@ import { WebProductsComponent } from './pages/website/web-products/web-products.
 import { CheckoutComponent } from './pages/website/checkout/checkout.component';
 import { CustomerOrdersComponent } from './pages/website/customer-orders/customer-orders.component';
 import { authGuard } from './shared/guards/auth.guard';
-import { CartComponent } from './pages/admin/cart/cart.component';
 import { CustomerCartComponent } from './pages/website/customer-cart/customer-cart.component';
 
 export const routes: Routes = [
@@ -40,40 +39,39 @@ export const routes: Routes = [
         component: CustomerCartComponent,
       },
       {
-        path: 'cart',
-        component: CartComponent
+        path: 'order-history',
+        component: CustomerOrdersComponent,
+        canActivate: [authGuard],
+        title: 'Your Orders'
+      },
+      {
+        path: 'checkout',
+        component: CheckoutComponent,
+        canActivate: [authGuard],
+        title: 'Checkout'
+      },
+      {
+        path: '',
+        component: LayoutComponent,
+        canActivate: [authGuard],
+        children: [
+          {
+            path: 'products',
+            component: ProductsComponent,
+            canActivate: [authGuard],
+            title: 'Products'
+          },
+          {
+            path: 'category',
+            component: CategoriesComponent,
+            title: 'Category'
+          },
+        ]
       }
     ]
   },
-  {
-    path: 'checkout',
-    component: CheckoutComponent,
-    canActivate: [authGuard],
-    title: 'Checkout'
-  },
-  {
-    path: 'order-history',
-    component: CustomerOrdersComponent,
-    canActivate: [authGuard],
-    title: 'Your Orders'
-  },
-  {
-    path: '',
-    component: LayoutComponent,
-    canActivate: [authGuard],
-    children: [
-      {
-        path: 'products',
-        component: ProductsComponent,
-        canActivate: [authGuard],
-        title: 'Products'
-      },
-      {
-        path: 'category',
-        component: CategoriesComponent,
-        title: 'Category'
-      },
-    ]
-  }
+
+
+
 
 ];

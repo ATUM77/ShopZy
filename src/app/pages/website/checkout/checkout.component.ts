@@ -20,7 +20,9 @@ export class CheckoutComponent implements OnInit {
   paymentMethodError: boolean = false; 
   isOnlinePaymentSelected: boolean = false;
   constructor(private fb: FormBuilder, private router: Router) {
+    
     this.checkoutForm = this.fb.group({
+      id: this.generateUniqueId(),
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       phone: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
@@ -36,7 +38,9 @@ export class CheckoutComponent implements OnInit {
       cvv: ['']
     });
   }
-
+  generateUniqueId(): string {
+    return 'order_' + Math.random().toString(36).substr(2, 9);
+  }
   ngOnInit(): void {
     this.getCartDataFromLocalStorage();
     this.calculateTotalPrice();
@@ -89,10 +93,17 @@ export class CheckoutComponent implements OnInit {
       this.paymentMethodError = true; 
       return;
     }
-
+    this.calculateTotalPrice();
     if (this.checkoutForm.valid) {
-      localStorage.setItem('checkoutData', JSON.stringify(this.checkoutForm.value));
-      this.router.navigate(['/order']);
+      const orderData = {
+        ...this.checkoutForm.value,
+        items: this.cartList, 
+        totalPrice: this.totalPrice 
+      };
+      const existingOrders = JSON.parse(localStorage.getItem('customer-orders') || '[]');
+      existingOrders.push(orderData); 
+      localStorage.setItem('customer-orders', JSON.stringify(existingOrders));
+      this.router.navigate(['/order-history']);
     } else {
       Object.keys(this.checkoutForm.controls).forEach(field => {
         const control = this.checkoutForm.get(field);
